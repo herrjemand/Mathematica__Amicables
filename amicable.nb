@@ -1,0 +1,30 @@
+Parallelize[
+ max = 1000000; amicns = {}; amicn = {};
+ Monitor[For[i = 4, i < max, i++, a = i; b = 0; c = {}; d = {};
+   If[! PrimeQ[i],
+    If[! MemberQ[amicn, i],
+     AppendTo[c, 1];
+     If[Mod[i, 2] == 0,
+      For[x = 2, x <= i/2, x++, If[Mod[i, x] == 0, AppendTo[c, x];]],
+      For[x = 3, x <= i/3, x += 2, If[Mod[i, x] == 0, AppendTo[c, x];]]
+      ];
+     If[Length[c] > 1, b = Total[c];
+      If[Total[c] != a,
+       If[! PrimeQ[b], AppendTo[d, 1];
+        If[Mod[b, 2] == 0,
+         For[x = 2, x <= b/2, x++, 
+          If[Mod[b, x] == 0, AppendTo[d, x];]],
+         For[x = 3, x <= b/3, x += 2, 
+          If[Mod[b, x] == 0, AppendTo[d, x];]]
+         ];
+        If[Length[d] > 1,
+         If[Total[d] == a,
+          Print[a, c]; Print[b, d];
+          AppendTo[amicns, {{a, c}, {b, d}}];
+          AppendTo[amicn, a];
+          AppendTo[amicn, b]; a = b = 0; c = d = {};
+          ]]
+        ]], a = b = 0; c = d = {};]]]], i];
+ Print[Text["       Simple "], amicn];
+ Print[Text[" Expanded "], amicns];
+ ]
