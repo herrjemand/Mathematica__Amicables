@@ -1,6 +1,7 @@
 Parallelize[
- max = 1000000; amicns = {}; amicn = {};
- Monitor[For[i = 4, i < max, i++, a = i; b = 0; c = {}; d = {};
+ max = 1000000; min = 695000; amicns = {}; amicn = {};
+ Monitor[
+  For[i = min, i < max, i++, a = i; b = 0; c = {}; d = {};
    If[! PrimeQ[i],
     If[! MemberQ[amicn, i],
      AppendTo[c, 1];
@@ -10,7 +11,8 @@ Parallelize[
       ];
      If[Length[c] > 1, b = Total[c];
       If[Total[c] != a,
-       If[! PrimeQ[b], AppendTo[d, 1];
+       If[! PrimeQ[b],
+        AppendTo[d, 1];
         If[Mod[b, 2] == 0,
          For[x = 2, x <= b/2, x++, 
           If[Mod[b, x] == 0, AppendTo[d, x];]],
